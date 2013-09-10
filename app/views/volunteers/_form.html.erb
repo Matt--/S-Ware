@@ -36,7 +36,7 @@
     <th><%= f.label :Job_preference %></th>
   </tr>
   <% row = 1 %>
-  <%= f.fields_for :dojobs do |ff| %>
+  <%= f.fields_for :vol_job_day do |ff| %>
     <tr>
       <td>
       <div class="field">
@@ -46,7 +46,7 @@
       </td>
       <td>    
         <div class="field">
-          <%= ff.collection_select(:jobdescription_id, Jobdescription.all,
+          <%= ff.collection_select(:dojob_id, Dojob.all,
                          :id, :name) %>
         </div>
       </td>

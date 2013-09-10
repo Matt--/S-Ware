@@ -3,18 +3,21 @@ class Volunteer < ActiveRecord::Base
 
   attr_accessible :address, :background, :dob, :email, :firstname, :home, 
             :lastname, :moblie, :title,
-            :ondays_attributes, :dojobs_attributes
+            :vol_job_day_attributes, :ondays_attributes, :dojobs_attributes
 
   has_many :whiteboards
 
-  has_many :ondays
+  has_many :vol_job_day
   has_many :dojobs,
-           :through => :ondays
+           :through => :vol_job_day
+  has_many :ondays,
+           :through => :vol_job_day
 
-  accepts_nested_attributes_for :ondays,
+  accepts_nested_attributes_for :vol_job_day,
        #    :reject_if => :all_blank,
            :allow_destroy => true
   accepts_nested_attributes_for :dojobs
+  accepts_nested_attributes_for :ondays
   
   validates :title, :presence => true#, :message => ""
   validates :dob, :presence => true
@@ -46,19 +49,24 @@ class Volunteer < ActiveRecord::Base
     return send_confirmation_email
   end
 
-  # returns availabledays object
+  # returns array [job.name, day.name]
   def next_working
-    job = nil
+    job_day = nil
     daynumber = 0
     time = Time.now
-    (1..31).each do |y|
+    (1..31).each do |y| # start searching from tomorrow, y=1
       t = time + (y * (60*60*24))
-      # a bit basic, will need to tie in dates etc
-      daynumber = (t.wday == 0) ? 7 : t.wday
-      job = dojobs.where( dayint: daynumber)[0]
-      break if !job.nil?
+      # a bit basic, will need to tie in absent date ranges etc
+      daynumber = (t.wday == 0) ? 7 : t.wday # weekday range 1..7 starting Mon
+      v = vol_job_day.where("onday_id = ?", daynumber)[0]
+      
+#return v.onday
+
+      if !v.nil? 
+        return [v.dojob.name, v.onday.name]
+      end
     end
-    return job
+    return ['none', 'nothing found']
   end
 
   after_save :send_confirmation_email

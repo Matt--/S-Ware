@@ -1,10 +1,10 @@
 class Onday < ActiveRecord::Base
-  attr_accessible :dojob_id, :volunteer_id,
-                  :dojob_attributes
+  attr_accessible :name, :id
 
-  belongs_to :dojob
-  belongs_to :volunteer
+  has_many :vol_job_day
+  has_many :volunteers,
+           :through => :vol_job_day
 
-  accepts_nested_attributes_for :dojob
-                 # :reject_if => :all_blank
+
+
 end

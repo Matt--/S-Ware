@@ -36,20 +36,16 @@
   </tr>
 
 <%########### Table Content #########%>
-  <% jd = Jobdescription.all %>
+  <% jd = Dojob.all %>
   <% (1..jd.length-1).each do |i| %>
   <tr>
     <td><%= jd[i].name %></td>
     <% (0..31).each do |c| %>
       <% t = time + (c * (60*60*24)) %>
+      <% dayno = (t.wday == 0) ? 7 : t.wday %> <%# mon => 1, sun => 7 %>
     <td>
       <% @volunteers.each do |v| %>
-        <%##### t.wday starts at 0=>Sunday, dayint starts at 1=>Monday ###%>
-        <% d = (t.wday == 0) ?
-          v.dojobs.where(
-              dayint: 7, jobdescription_id: jd[i].id )[0] :
-          v.dojobs.where(
-              dayint: t.wday, jobdescription_id: jd[i].id )[0] %>
+        <% d = v.vol_job_day.where( onday_id: dayno , dojob_id: jd[i].id )[0]%>
 
 
          <%= d.nil? ? '' : v.firstname %>   
