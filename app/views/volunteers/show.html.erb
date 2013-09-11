@@ -41,9 +41,9 @@
 </p>
 
 <p>
-  <% j = @volunteer.next_working %>
+  <% job = @volunteer.next_working %>
   <b>Next working:</b>
-  <%= j.nil? ? '' : j.day %>
+  <%= (job[0].nil? or job[0] == "none") ? 'no' : job[0] %>
   <b>in job:</b>
 
   <%= j.nil? ? '' : j.name %>
