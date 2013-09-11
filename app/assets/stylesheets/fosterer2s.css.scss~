@@ -8,20 +8,20 @@
   
   #main-container{
     position: absolute;
-    top: 25%;
+    top: 0%;
     left: 15%;
   }
   
   
   #PropertyBox{
     position :absolute;
-    top: 20px;
+    top: 420px;
     left: 00px;  
   }
   
   #TimeCommitmentBox{
     position :absolute;
-    top: 20px;
+    top: 420px;
     left: 550px;  
   }
   
@@ -31,9 +31,10 @@
   
   #TermsAndConditionsBox{
     position :absolute;
-    top: 1000px;
+    top: 1400px;
     left: 100px;  
   }
+  
   /*
    Non resizeable textarea
    */

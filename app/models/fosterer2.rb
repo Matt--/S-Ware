@@ -7,5 +7,4 @@ class Fosterer2 < ActiveRecord::Base
   
   validates :agreement, :presence => true
   # on_save .....
-  
 end

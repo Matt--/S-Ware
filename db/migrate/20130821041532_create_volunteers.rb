@@ -10,6 +10,8 @@ class CreateVolunteers < ActiveRecord::Migration
       t.string :moblie
       t.string :home
       t.text :background
+      t.boolean :befosterer
+      t.integer :scheduledjobtype_id
 
       t.timestamps
     end

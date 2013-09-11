@@ -41,6 +41,9 @@
 </p>
 
 <p>
+
+  <b>Be a Fosterer:</b>
+  <%= @volunteer.befosterer %>
   <% job = @volunteer.next_working %>
   <b>Next working:</b>
   <%= (job[0].nil? or job[0] == "none") ? 'no' : job[0] %>

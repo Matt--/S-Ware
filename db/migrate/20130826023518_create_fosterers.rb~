@@ -3,7 +3,7 @@ class CreateFosterers < ActiveRecord::Migration
     create_table :fosterers do |t|
 
   
-      t.string :personal2
+      t.string :motivation
       
       
       t.boolean :catnursing
@@ -22,6 +22,8 @@ class CreateFosterers < ActiveRecord::Migration
       t.boolean :birdsinjured
       t.boolean :birdstoung
       t.boolean :livestock
+      
+      t.integer :volunteer_id
       
       
       t.timestamps

@@ -2,7 +2,7 @@ require 'net/smtp'
 class Volunteer < ActiveRecord::Base
 
   attr_accessible :address, :background, :dob, :email, :firstname, :home, 
-            :lastname, :moblie, :title,
+            :lastname, :moblie, :title, :befosterer
             :vol_job_day_attributes, :ondays_attributes, :dojobs_attributes
 
   has_many :whiteboards
@@ -19,7 +19,7 @@ class Volunteer < ActiveRecord::Base
   accepts_nested_attributes_for :dojobs
   accepts_nested_attributes_for :ondays
   
-  validates :title, :presence => true#, :message => ""
+  validates :title, :presence => true #, :message => ""
   validates :dob, :presence => true
   validates :firstname, :presence => true
   validates :lastname, :presence => true
@@ -38,6 +38,9 @@ class Volunteer < ActiveRecord::Base
   validate :over_18
   
 
+  has_many :whiteboards
+  
+  has_one :fosterer
   
   def over_18
     if dob + 18.years >= Date.today
