@@ -43,13 +43,16 @@
 <p>
 
   <b>Be a Fosterer:</b>
-  <%= @volunteer.befosterer %>
+
+<%########## commented out, revert to Hamids version on merge #####%>
+  <%#= @volunteer.befosterer %>
+
   <% job = @volunteer.next_working %>
   <b>Next working:</b>
   <%= (job[0].nil? or job[0] == "none") ? 'no' : job[0] %>
   <b>in job:</b>
 
-  <%= j.nil? ? '' : j.name %>
+  <%= (job[0].nil? or job[0] == "none") ? 'no' : job[1] %>
 </p>
 
 <p>

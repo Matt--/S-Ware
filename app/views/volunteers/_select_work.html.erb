@@ -1,0 +1,24 @@
+<table>
+  <tr>
+    <th><%= f.label :days_to_work %></th>
+    <th><%= f.label :Job_preference %></th>
+  </tr>
+  <% row = 1 %>
+  <%= f.fields_for :vol_job_day do |ff| %>
+    <tr>
+      <td>
+      <div class="field">
+        <%= ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                                    'Friday', 'Saturday', 'Sunday'][row-1] %>
+      </div>
+      </td>
+      <td>    
+        <div class="field">
+          <%= ff.collection_select(:dojob_id, Dojob.all,
+                         :id, :name) %>
+        </div>
+      </td>
+    </tr>
+    <% row = row+1 %>
+  <% end %>
+</table>

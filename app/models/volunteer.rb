@@ -2,15 +2,17 @@ require 'net/smtp'
 class Volunteer < ActiveRecord::Base
 
   attr_accessible :address, :background, :dob, :email, :firstname, :home, 
-            :lastname, :moblie, :title, :befosterer
+            :lastname, :moblie, :title, :befosterer,
             :vol_job_day_attributes, :ondays_attributes, :dojobs_attributes
 
   has_many :whiteboards
-
+  has_one :fosterer
   has_many :vol_job_day
   has_many :dojobs,
            :through => :vol_job_day
   has_many :ondays,
+           :through => :vol_job_day
+  has_many :frequencies,
            :through => :vol_job_day
 
   accepts_nested_attributes_for :vol_job_day,
@@ -37,11 +39,12 @@ class Volunteer < ActiveRecord::Base
   
   validate :over_18
   
+  
+  after_save :enable_vol_job_day
+  after_save :send_confirmation_email
 
-  has_many :whiteboards
-  
-  has_one :fosterer
-  
+##############################################################
+
   def over_18
     if dob + 18.years >= Date.today
       errors.add(:dob, "can't be under 18")
@@ -61,23 +64,20 @@ class Volunteer < ActiveRecord::Base
       t = time + (y * (60*60*24))
       # a bit basic, will need to tie in absent date ranges etc
       daynumber = (t.wday == 0) ? 7 : t.wday # weekday range 1..7 starting Mon
-      v = vol_job_day.where("onday_id = ?", daynumber)[0]
-      
-#return v.onday
 
-      if !v.nil? 
+      v = vol_job_day.where("onday_id = ?", daynumber)[0]
+
+      if (!v.nil? && v.dojob.name != "none")  
         return [v.dojob.name, v.onday.name]
       end
     end
     return ['none', 'nothing found']
   end
 
-  after_save :send_confirmation_email
   # precondition: after_save callback only triggers on a successfull save
   private
   def send_confirmation_email
     vc = Volcoordinator.find(:first)
-
     message = <<-MESSAGE_END
     From: #{defined?(vc.email_replyto).nil? ? 'test from' : vc.email_replyto }
     To: #{email.nil? ? 'test to' : email}
@@ -104,4 +104,18 @@ class Volunteer < ActiveRecord::Base
     return message # used in test
 #    end
   end
+
+  private
+  def enable_vol_job_day
+    if( vol_job_day.empty? )
+      (1..7).each do |n|
+        v = VolJobDay.new
+        v.volunteer_id = self.id
+        v.dojob_id = 1
+        v.onday_id = n
+        v.save
+      end
+    end
+  end
+
 end

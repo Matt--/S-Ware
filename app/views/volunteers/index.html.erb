@@ -1,10 +1,6 @@
-
-
 <h1>Listing volunteers</h1>
-
  
 <table border=1>
-
   <tr>
     <th>Firstname</th>
     <th>Lastname</th>
@@ -16,52 +12,42 @@
     <th></th>
   </tr>
 
-<% @volunteers.each do |volunteer| %>
-  <tr>
-    <% job = volunteer.next_working %>
-
-    <%= job.nil? ? 'nil job' : job%>
-
-    <td><%= volunteer.firstname %></td>
-    <td><%= volunteer.lastname %></td>
-    
-    
-    <td>
-     <%if !volunteer.fosterer.nil?%>
-	<%= link_to 'Become fosterer', new_fosterer_path %>
-      <%else%>
-	<%= link_to 'Details', fosterers_path %>
-      <%end%>
+  <% @volunteers.each do |volunteer| %>
+    <tr>
+      <% job = volunteer.next_working %>
   
-    </td>
-    
-    
-    
-    
-    
-    <%#if volunteer.befosterer==false%>
-<!--     <td><%#= link_to 'Wish be fosterer', volunteer %></td> -->
+      <td><%= volunteer.firstname %></td>
+      <td><%= volunteer.lastname %></td>
       
-    <%#end%>
-   
-   
-   
+      
+      <td>
+        <%if !volunteer.fosterer.nil?%>
+	        <%= link_to 'Become fosterer', new_fosterer_path %>
+        <%else%>
+	        <%= link_to 'Details', fosterers_path %>
+        <%end%>
     
-    <td><%= (job[0].nil? or job[0] == "none") ? 'no' : job[0] %></td>
+      </td>
+    
+      <%#if volunteer.befosterer==false%>
+  <!--     <td><%#= link_to 'Wish be fosterer', volunteer %></td> -->
+      <%#end%>
+   
+      <td><%= (job.nil? or job[0] == "none") ? 'no' : job[0] %></td>
+      <td><%= (job.nil? or job[0] == "none") ? 'no' : job[1] %></td>
 
-    <td><%= (job[0].nil? or job[0] == "none") ? 'no' : job[1] %></td>
-
-    <td><%= link_to 'Show', volunteer %></td>
-    <td><%= link_to 'Edit', edit_volunteer_path(volunteer) %></td>
-    <td><%= link_to 'Destroy', volunteer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td><%= link_to 'Show', volunteer %></td>
+      <td><%= link_to 'Edit', edit_volunteer_path(volunteer) %></td>
+      <td><%= link_to 'Destroy', volunteer, method: :delete, 
+                                    data: { confirm: 'Are you sure?' } %></td>
     
     
-    <%# if volunteer.befosterer==true %>
-<!--         <td><%#= link_to 'Fosterer form', new_fosterer_path%></td> -->
-    <%# end %>
+      <%# if volunteer.befosterer==true %>
+  <!--         <td><%#= link_to 'Fosterer form', new_fosterer_path%></td> -->
+      <%# end %>
     
-  </tr>
-<% end %>
+    </tr>
+  <% end %>
 </table>
 
 <br />

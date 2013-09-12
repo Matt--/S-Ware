@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909221611) do
+ActiveRecord::Schema.define(:version => 20130912213434) do
 
   create_table "dojobs", :force => true do |t|
     t.string   "name"
@@ -65,6 +65,13 @@ ActiveRecord::Schema.define(:version => 20130909221611) do
     t.string   "personal"
   end
 
+  create_table "frequencies", :force => true do |t|
+    t.string   "name",       :default => "weekly", :null => false
+    t.integer  "week",       :default => 1,        :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+  end
+
   create_table "jobdescriptions", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -81,6 +88,7 @@ ActiveRecord::Schema.define(:version => 20130909221611) do
     t.integer  "volunteer_id"
     t.integer  "dojob_id"
     t.integer  "onday_id"
+    t.integer  "frequency_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
