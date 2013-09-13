@@ -39,8 +39,8 @@ class Volunteer < ActiveRecord::Base
   
   validate :over_18
   
-  
-  after_save :enable_vol_job_day
+  after_initialize :init
+  after_find :enable_vol_job_day
   after_save :send_confirmation_email
 
 ##############################################################
@@ -55,8 +55,9 @@ class Volunteer < ActiveRecord::Base
     return send_confirmation_email
   end
 
-  # returns array [job.name, day.name]
+  # returns array [job.name, day.name, date]
   def next_working
+    job = ['none', 'none', 'none']
     job_day = nil
     daynumber = 0
     time = Time.now
@@ -67,11 +68,13 @@ class Volunteer < ActiveRecord::Base
 
       v = vol_job_day.where("onday_id = ?", daynumber)[0]
 
-      if (!v.nil? && v.dojob.name != "none")  
-        return [v.dojob.name, v.onday.name]
+      if (!v.nil? && v.dojob.name != "none")
+        date = t.strftime(", %b %d")
+        job = [v.dojob.name, v.onday.name, date]
+        break
       end
     end
-    return ['none', 'nothing found']
+    return job
   end
 
   # precondition: after_save callback only triggers on a successfull save
@@ -116,6 +119,14 @@ class Volunteer < ActiveRecord::Base
         v.save
       end
     end
+  end
+
+  private
+  def init
+    #ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!({
+ # :quick => "%m %d, %Y at %I:%M %p",
+#  :end_date => "%B %d, %Y"
+#})
   end
 
 end

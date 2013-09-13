@@ -17,7 +17,11 @@ class VolJobDay < ActiveRecord::Base
 
 
   def ensure_frequency
-    frequency.nil? ? frequency = Frequency.create : nil
+    if frequency.nil? 
+      frequency = Frequency.create
+      self.frequency_id = frequency.id
+      self.save
+    end
   end
 
 end
