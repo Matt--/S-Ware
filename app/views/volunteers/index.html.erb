@@ -14,7 +14,6 @@
 
   <% @volunteers.each do |volunteer| %>
     <tr>
-      <% job = volunteer.next_working %>
   
       <td><%= volunteer.firstname %></td>
       <td><%= volunteer.lastname %></td>
@@ -33,6 +32,7 @@
   <!--     <td><%#= link_to 'Wish be fosterer', volunteer %></td> -->
       <%#end%>
    
+      <% job = next_working volunteer %>
       <td><%= (job.nil? or job[0] == "none") ? 'no' : job[1] + job[2] %></td>
       <td><%= (job.nil? or job[0] == "none") ? 'no' : job[0] %></td>
 

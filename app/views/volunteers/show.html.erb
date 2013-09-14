@@ -47,7 +47,7 @@
 <%########## commented out, revert to Hamids version on merge #####%>
   <%#= @volunteer.befosterer %>
 
-  <% job = @volunteer.next_working %>
+  <% job = next_working @volunteer %>
   <b>Next working:</b>
   <%= (job[0].nil? or job[0] == "none") ? 'no' : job[1] +job[2] %>
   <b>in job:</b>

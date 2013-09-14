@@ -1,4 +1,6 @@
 class VolunteersController < ApplicationController
+  helper VolunteersHelper
+
   # GET /volunteers
   # GET /volunteers.json
   def index
@@ -45,7 +47,6 @@ class VolunteersController < ApplicationController
   # POST /volunteers.json
   def create
     @volunteer = Volunteer.new(params[:volunteer])
-#    @availableday = @volunteer.availabledays.build(params[:availableday])
 
     respond_to do |format|
       if @volunteer.save

@@ -16,6 +16,9 @@ gem 'spork-rails', github: 'sporkrb/spork-rails'
 gem 'guard-spork'
 gem 'childprocess'
 
+# Helpers
+gem 'week_of_month'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

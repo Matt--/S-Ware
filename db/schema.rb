@@ -118,6 +118,8 @@ ActiveRecord::Schema.define(:version => 20130912213434) do
     t.text     "background"
     t.boolean  "befosterer"
     t.integer  "scheduledjobtype_id"
+    t.date     "break_from"
+    t.date     "break_to"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end

@@ -5,6 +5,9 @@ Volcoordinator.create([{
   email_content: 'Thank you for your application to become an SPCA Volunteer. We value all our volunteers and appreciate the many ways you can help us out. Please bear with us while your application is processed and we will reply to you by email in approximately 10 working days.'
 }])
 
+
+Frequency.create([{name: "monthly", week: 2}])
+
 Volunteer.create([{
   title: 'fosterer',
   dob: '12-10-1991',
@@ -120,7 +123,7 @@ Volscheduler.create([{
 }])
 
 VolJobDay.create([
-  { volunteer_id: 1, dojob_id: 1, onday_id: 1 },
+  { volunteer_id: 1, dojob_id: 1, onday_id: 1, frequency_id: 1 },
   { volunteer_id: 1, dojob_id: 1, onday_id: 2 },
   { volunteer_id: 1, dojob_id: 1, onday_id: 3 },
   { volunteer_id: 1, dojob_id: 1, onday_id: 4 },
@@ -168,5 +171,4 @@ Dojob.create([
 ])
 
 Onday.create([{name: 'Monday'}, {name: 'Tuesday'}, {name: 'Wednesday'}, {name: 'Thursday'}, {name: 'Friday'}, {name: 'Saturday'}, {name: 'Sunday'}])
-
 

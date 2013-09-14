@@ -45,10 +45,10 @@
       <% dayno = (t.wday == 0) ? 7 : t.wday %> <%# mon => 1, sun => 7 %>
     <td>
       <% @volunteers.each do |v| %>
-        <% d = v.vol_job_day.where( onday_id: dayno , dojob_id: jd[i].id )[0]%>
+        <% vjd = v.vol_job_day.where( onday_id: dayno, dojob_id: jd[i].id )[0]%>
+        <% if !vjd.nil? && !check_frequency?(vjd, t) then vjd = nil end %>
 
-
-         <%= d.nil? ? '' : v.firstname %>   
+         <%= vjd.nil? ? '' : v.firstname %>   
             
       <% end  %>
     </td>

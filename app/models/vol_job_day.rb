@@ -1,5 +1,6 @@
 class VolJobDay < ActiveRecord::Base
-  attr_accessible :dojob_id, :onday_id, :volunteer_id, :frequency_id
+  attr_accessible :dojob_id, :onday_id, :volunteer_id, :frequency_id,
+                  :frequency_attributes
 
   belongs_to :volunteer
   belongs_to :dojob

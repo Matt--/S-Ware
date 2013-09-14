@@ -10,7 +10,7 @@
   # NB: month accepts week 5 for the edge case every three months
 
 class Frequency < ActiveRecord::Base
-  attr_accessible :name, :week
+  attr_accessible :name, :week, :names
 
   has_many :vol_job_days
   has_many :volunteers,
@@ -19,4 +19,8 @@ class Frequency < ActiveRecord::Base
   validate :name, within: %w(weekly, fortnightly, monthly)
   validate :week, within: (1..5)
 
+
+  def names
+    return ["weekly", "fortnightly", "monthly"]
+  end
 end
