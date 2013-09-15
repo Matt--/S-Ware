@@ -16,7 +16,11 @@ class VolJobDay < ActiveRecord::Base
 
   after_save :ensure_frequency
 
+  validates_associated :dojob
+  validates_associated :onday
+  validates_associated :frequency
 
+##############################################
   def ensure_frequency
     if frequency.nil? 
       frequency = Frequency.create

@@ -1,8 +1,10 @@
-Select break times:<br/>
+<h4>Select break times:</h4>
 
+<div>
   <%= f.label       :break_from %>
-  <%= f.text_field  :break_from %>
+  <%= f.text_field :break_from, value: 
+    f.object.break_from.nil? ? '' : f.object.break_from.strftime("%d-%m-%Y") %>
   <%= f.label       :break_to %>
-  <%= f.text_field  :break_to %>
-
-<br/>
+  <%= f.text_field  :break_to, value: 
+    f.object.break_to.nil? ? '' : f.object.break_to.strftime("%d-%m-%Y") %>
+</div>

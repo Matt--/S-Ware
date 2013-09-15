@@ -4,11 +4,11 @@ class Volunteer < ActiveRecord::Base
 
   attr_accessible :address, :background, :dob, :email, :firstname, :home, 
             :lastname, :moblie, :title, :befosterer,
-            :break_from, :break_to,
-            :vol_job_day_attributes, :ondays_attributes, :dojobs_attributes
+            :break_from, :break_to,  :vol_job_day_attributes,
+            :ondays_attributes, :dojobs_attributes
 
   has_many :whiteboards
-  has_one :fosterer
+  has_one  :fosterer
   has_many :vol_job_day
   has_many :dojobs,
            :through => :vol_job_day
@@ -30,8 +30,10 @@ class Volunteer < ActiveRecord::Base
   validates :address, :presence => true
   validates :email, :presence => true
   validates :background, :presence => true
-  # TODO validate :break_from, :break_to, as good dates
-  
+  validate  :breakdate_validator#, 
+            #:unless => (:break_from.nil? && :break_to.nil?)
+#  validates_associated :vol_job_days  
+
   #We want to only require one of these two
   validates :moblie, :numericality => {:only_integer => true},
                      :presence => true, :if => "home.blank?"
@@ -40,14 +42,14 @@ class Volunteer < ActiveRecord::Base
   #There is a bug atm - if one of them is there, it doesn't
   #check that the other one is numerical. Don't care atm!
   
-  validate :over_18
+  validate :over_18_validator
   
   after_find :enable_vol_job_day
   after_save :send_confirmation_email
 
 ##############################################################
 
-  def over_18
+  def over_18_validator
     if dob + 18.years >= Date.today
       errors.add(:dob, "can't be under 18")
     end
@@ -57,7 +59,27 @@ class Volunteer < ActiveRecord::Base
     return send_confirmation_email
   end
 
-
+  def breakdate_validator
+#raise break_to.inspect
+    return if(break_from.nil? && break_to.nil?)
+    start =  break_from.class == Date ? break_from : Date.new(break_from.to_s)
+    finish = break_to.class == Date   ? break_to   : Date.new(break_to.to_s)
+    if start.nil? || finish.nil?
+      if start.nil?
+        errors.add(:break_from, "invalid date string, use dd/mm/yyyy")
+      end      
+      if finish.nil?
+        errors.add(:break_to, "invalid date string, use dd/mm/yyyy")
+      end
+    else
+      if start > finish
+        errors.add(:break_to, "end date must be later than start")
+      end
+      if finish < Date.new
+        errors.add(:break_to, "end date must be a future date")
+      end
+    end
+  end
 
   # precondition: after_save callback only triggers on a successfull save
   private
